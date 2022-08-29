@@ -51,14 +51,19 @@ p1_sp_targets_list <- list(
   tar_target(
     p1_states_sf,
     st_read(file.path(p1_download_states_shp,'statesp010g.shp'), quiet = TRUE) %>%
-      filter(STATE_ABBR %in% c('CA',"NV",'UT','OR')) %>% 
+      filter(STATE_ABBR %in% c('CA',"NV",'UT','OR', 'ID')) %>% 
       st_transform(crs = st_crs(p1_lakes_sf)) %>% 
       select(NAME,STATE_ABBR, geometry)
   ),
   
   
   # nhdhr download and fetch #
+  ## Fetch all huc8 within Western region
   
+  tar_target(
+    p1_huc08_states,
+    get_huc8(AOI = p1_states_sf)
+  ),
   ## 1st fetch of huc08  to get all relevant high res nhd data (water bodies, huc6, huc8, huc10 areas) for focal lakes
   tar_target(
     p1_huc08_full_basin_sf,
@@ -72,6 +77,13 @@ p1_sp_targets_list <- list(
         unique() %>%
         ## adding 1601 which is a HU4 that contains watersheds relevant to Great Salt Lake 
         append('1601')
+  ),
+  tar_target(
+    p1_huc04_state_download,
+    substr(p1_huc08_states$huc8, start = 1, stop = 4) %>%
+      unique() %>%
+      ## adding 1601 which is a HU4 that contains watersheds relevant to Great Salt Lake 
+      append('1601')
   ),
   
   ## Download high res nhd data to get lake water bodies 

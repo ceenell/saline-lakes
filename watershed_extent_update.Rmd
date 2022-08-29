@@ -1,18 +1,25 @@
 ---
-title: "End of Summer Report"
+title: "Lake spatial extents"
 author: |
-  | Vizlab, Data Science Branch, IIDD 
+  | Data Science Branch, IIDD 
   | Contacts: Margaux Sleckman (msleckman@usgs.gov), Anthony Martinez (ajmartinez@usgs.gov) and Cee Nell (cnell@usgs.gov)
   
 date: "8/23/2022"
 output: html_document
 ---
 
-The purpose of this document is to establish agreed upon spatial extent for each of the saline lakes, including:
+### Purpose
+Establish agreed upon spatial extent for each of the saline lakes and address questions about watershed delineations.
 
-1. Lake polygons - incl. Carson Sink
-2. Updated Watershed boundaries
+Spatial layers:
+1. Lake polygons 
+  - From NHD HR
+  - Carson Sink not in NHD, was manually added
+2. Watershed boundaries
+  -  
+  - 
 3. Upstream flowlines within each watershed
+4. Streamgage locations
 
 ```{r load, echo = FALSE, warnings = FALSE} 
 
@@ -108,4 +115,7 @@ build_map_leaflet_updated_082322(p3_watershed_sf = p2_lake_watersheds_dissolved,
 
 ## note - a warning appears because Carson sink has not point coords (lat lon) - ignore and can incorporate when loading in carson sink
 
-```
+```  
+
+### Questions
+1. What is the appropriate spatial scale for watershed delineation? Should this vary from lake to lake?
